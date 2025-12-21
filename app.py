@@ -6,6 +6,7 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "12345678"
 
 def start_session(quiz_id = 0):
+    """"Творює сесії для користувача"""
     session['quiz_id'] = quiz_id
     session['last_question_id'] = 0
     session['correct_ans'] = 0
@@ -31,18 +32,19 @@ def check_answer(question_id, selected_answer):
     session["total"] += 1
 
 
-
+# головна сторінка
 @app.route("/", methods=["GET", "POST"])
 def index():
-    if request.method == "GET":
-        quizes = get_quizes()
+    if request.method == "GET":#якщо метод get 
+        quizes = get_quizes()#отримуємо вікторини з БД
         start_session(-1)
         return render_template("index.html", quizes_list=quizes)
-    else:
-        quiz_id = request.form.get("quiz")
+    else:#якщо метод post
+        quiz_id = request.form.get("quiz")#отримуємо номер вибраної вікторини
+        print (quiz_id)
         start_session(quiz_id)
-        return redirect(url_for("test"))
-
+        return redirect(url_for("test"))#епреправляння на test
+#сторінка з тестування
 @app.route("/test", methods=["GET", "POST"])
 def test():
     if not ("quiz_id" in session) or int(session["quiz_id"]) < 0:
@@ -51,6 +53,7 @@ def test():
         if request.method =="POST":
             selected_answer = request.form.get("ans")
             question_id = int(request.form.get("quest_id"))
+            
             check_answer(question_id, selected_answer)
             session["last_question_id"] = question_id
 

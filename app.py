@@ -64,10 +64,14 @@ def test():
         
 @app.route("/result")
 def result():
-    return render_template("result.html",
+    result = render_template("result.html",
                             right=session["correct_ans"],
                             wrong=session["wrong_ans"],
                             total=session["total"])
+    session.clear()
+    return result
+    
+ 
 
 
 

@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Обери вікторину</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %} Обрати вікторину{% endblock %}
+{% block content %}
     <form action="/" method="POST">
         <select name="quiz">
             {% for id, title, description in quizes_list %}
@@ -14,6 +9,4 @@
         </select>
         <button type="submit">Обрати</button>
     </form>
-    
-</body>
-</html>
+    {% endblock %}
